@@ -35,4 +35,20 @@ kubectl create ns taskapp
 
    // 作成したsecretファイルを適用
    kubectl -n taskapp apply -f mysql-secret.yaml // -nはnamespaceを指定
+
+   // secretの確認
+   kubectl get secrets/mysql -o yaml -n taskapp
   ```
+
+- APIサーバー用の設定ファイルのsecretを作成する
+    ```
+    // ~/go/src/github.com/gihyodocker/taskappで実行
+    kubectl create secret generic api-config --dry-run=client -o yaml \
+    --from-file=api-config.yaml=./api-config.yaml > ~/k8s/taskapp/local/api-config-secret.yaml
+
+    // 適用 (taskapp/localで実行)
+    kubectl -n taskapp apply -f api-config-secret.yaml 
+    ```
+
+# mysqlのデプロイ
+- StatefulSetを作成する
