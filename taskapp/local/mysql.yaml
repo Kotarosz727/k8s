@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
@@ -38,29 +38,14 @@ spec:
           mountPath: /var/run/secrets/mysql
           readOnly: true
       volumes:
-      - name: mysql-secrets
-        secret:
-          secretName: mysql
-      volumeClaimTemplates:
-      - metadata:
-          name: mysql-data
-        spec:
-          accessModes: [ "ReadWriteOnce" ]
-          resources:
-            requests:
-              storage: 1Gi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-  labels:
-    app: mysql
-spec:
-  ports:
-  - protocol: TCP
-    port: 3306
-    targetPort: 3306
-  selector:
-    app: mysql
-  clusterIP: None
+        - name: mysql-secrets
+          secret:
+            secretName: mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
