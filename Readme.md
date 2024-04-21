@@ -51,4 +51,4 @@ kubectl create ns taskapp
     ```
 
 # mysqlのデプロイ
-- StatefulSetを作成する
+- StatefulSet, serviceを作成する
