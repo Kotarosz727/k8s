@@ -52,3 +52,13 @@ kubectl create ns taskapp
 
 # mysqlのデプロイ
 - StatefulSet, serviceを作成する
+- データベースなどのデータを扱うものはStatefulSetを使用する
+    ```
+    kubectl -n taskapp apply -f mysql.yaml
+    ```
+
+# マイグレーターのデプロイ
+- Jobを作成する
+- Jobは1つ以上のPodを作成し、指定された数のPodが正常終了するまで管理するリソース
+- DeploymentやServiceで管理されるPodが常駐型アプリケーション用途で主に使用されるのに対して、Jobで作成されるPodは主にバッチ処理用途などで使用される
+- Jobでは全てのPodが正常に終了しても、Podは削除されずに保持されるため、ログや実行結果を分析できる
