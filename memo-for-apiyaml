@@ -1,0 +1,22 @@
+The Deployment is responsible for managing a set of identical Pods — in this case, a single replica of a Pod running two containers: nginx-api and api. The nginx-api container is configured with environment variables to set up an NGINX server that acts as a reverse proxy to the api container. The api container runs a server application with a specific configuration file, which is mounted from a Kubernetes Secret named api-config.
+
+Here's a breakdown of the Deployment:
+
+metadata: The Deployment is named api and is labeled with app: api.
+spec: The specification for the Deployment.
+replicas: The Deployment will ensure that one replica of the Pod is running.
+selector: The Deployment will manage Pods that have the label app: api.
+template: The template for the Pods that the Deployment will create.
+metadata: The Pods will be labeled with app: api.
+spec: The specification for the Pods.
+containers: The Pods will run two containers: nginx-api and api.
+volumes: The Pods will have a volume named api-config that is populated with data from a Secret named api-config.
+The Service, named api, is responsible for routing traffic to the Pods managed by the Deployment. The Service will route TCP traffic on its own port 80 to port 80 on any Pods with the label app: api.
+
+Here's a breakdown of the Service:
+
+metadata: The Service is named api and is labeled with app: api.
+spec: The specification for the Service.
+ports: The Service will route TCP traffic from its own port 80 to the target port 80 on the Pods.
+selector: The Service will route traffic to Pods that have the label app: api.
+In summary, this configuration sets up a single Pod running an NGINX server and an API server, with the NGINX server acting as a reverse proxy to the API server. The Service exposes the NGINX server on port 80.
