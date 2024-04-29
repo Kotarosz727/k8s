@@ -1,0 +1,22 @@
+# create resource group
+az group create --name gihyo --location japaneast
+
+# create AKS cluster
+az aks create --resource-group gihyo --name gihyo-aks --enable-managed-identity \
+--network-plugin azure -a ingress-appgw --appgw-name gihyo-gateway --appgw-subnet-cidr "10.225.0.0/16" \
+--node-count 1 --generate-ssh-keys
+
+# connect to AKS cluser
+az aks get-credentials --resource-group gihyo --name gihyo-aks
+
+# change current context
+kubectl config use-context gihyo-aks
+
+# show contexts
+kubectl config get-contexts
+
+# show cluster info
+kubectl cluster-info
+
+# delete aks cluster
+az group delete --name gihyo --yes --no-wait
